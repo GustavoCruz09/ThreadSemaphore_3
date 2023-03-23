@@ -2,9 +2,9 @@ package controller;
 
 public class AbstrataPiloto {
 	
-	int carro;
-	String equipe;
-	int volta;
+	public int carro;
+	public String equipe;
+	public int volta;
 
 	public AbstrataPiloto() {
 		this(0, "", 0);

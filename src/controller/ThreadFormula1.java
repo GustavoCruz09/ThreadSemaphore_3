@@ -3,31 +3,26 @@ package controller;
 import java.util.concurrent.Semaphore;
 
 public class ThreadFormula1 extends Thread {
-	
-	private AbstrataPiloto acarro;
+
+	public AbstrataPiloto[] acarro;
 	private int piloto;
 	private String[] vetorEquipe;
-	private String[] vetor;
 	private Semaphore mutex;
 	private Semaphore semaforopista;
-	private static int ctd = 1;
-	private static int i = 0;
-	private static int indice = 0;
-	private static String frase = "";
 
-	public ThreadFormula1(AbstrataPiloto acarro, int piloto, String[] vetorEquipe, String[] vetor, Semaphore mutex, Semaphore semaforopista) {
+	public ThreadFormula1(AbstrataPiloto[] acarro, int piloto, String[] vetorEquipe, int[] vetor, Semaphore mutex, Semaphore semaforopista) {
 		this.acarro = acarro;
 		this.piloto = piloto;
 		this.vetorEquipe = vetorEquipe;
-		this.vetor = vetor;
 		this.mutex = mutex;
 		this.semaforopista = semaforopista;
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		try {
+//			System.out.println("APRESENTACAO DOS PILOTOS");
 			mutex.acquire();
 			preeencheEquipe();
 		} catch (Exception e) {
@@ -35,56 +30,57 @@ public class ThreadFormula1 extends Thread {
 		} finally {
 			mutex.release();
 		}
-		
+
 		try {
 			semaforopista.acquire();
-			Corrida();
+			Qualificacao();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			semaforopista.release();
 		}
-		
+
 	}
 
 	private void preeencheEquipe() {
 		
-		if(ctd < 2) {
-			acarro.equipe = vetorEquipe[i];
-			acarro.carro = piloto;
-			frase = "Piloto " + acarro.carro + " da Escuderia " + acarro.equipe ;
-			System.out.println(frase);
-			ctd++;
-		} else{
-			if(ctd ==2) {
-				acarro.equipe = vetorEquipe[i];
-				acarro.carro = piloto;
-				frase = "Piloto " + acarro.carro + " da Escuderia " + acarro.equipe ;
-				System.out.println(frase);
-			} 
-			i++;
-			ctd = 1;
+		if(piloto == 0 || piloto == 1) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[0];
+		} 
+		if(piloto == 2 || piloto == 3) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[1];
+		} 
+		if(piloto == 4 || piloto == 5) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[2];
+		} 
+		if(piloto == 6 || piloto == 7 ) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[3];
 		}
+		if(piloto == 8 || piloto == 9) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[4];
+		} 
+		if(piloto == 10 || piloto == 11) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[5];
+		}
+		if(piloto == 12 || piloto == 13) {
+			acarro[piloto].carro = piloto;
+			acarro[piloto].equipe = vetorEquipe[6];
+		} 
+		
+		System.out.println("O piloto " + acarro[piloto].carro + " da escuderia " + acarro[piloto].equipe + " está pronto");
 		
 	}
-	
-	private void Corrida() {
-		System.out.println("O piloto " + acarro.carro + " (" + acarro.equipe + ") saiu da pista");
-		int TamanhoPista = 100;
-		int percorrida = 0;
-		int movimento = (int) ((Math.random() * 50) + 0);
-		int tempo = 1000;
-		while(percorrida < TamanhoPista) {
-			percorrida += movimento;
-			try {
-				sleep(tempo);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("O piloto " + acarro.carro + " (" + acarro.equipe + ") andou " + percorrida + " metros");
-		}
-		System.out.println("O piloto " + acarro.carro + " (" + acarro.equipe + ") saiu da pista");
+
+	private void Qualificacao() {
+		
+		
+		
 	}
-	
+
 }
